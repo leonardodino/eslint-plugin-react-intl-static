@@ -12,7 +12,7 @@ function validateValuePropertyNode(context, propertyNode) {
   } else if (
     propertyNode.type !== 'Property' ||
     propertyNode.kind !== 'init' ||
-    propertyNode.key.type !== 'Identifier'
+    (propertyNode.key.type !== 'Identifier' && propertyNode.key.type !== 'Literal')
   ) {
     context.report({
       node: propertyNode,
