@@ -1,6 +1,11 @@
 const {
   validateValuePropertyNode,
+  getDefaultMessageFallback,
+  getQuotedString,
   getIsStaticTemplateLiteral,
+  getStaticTemplateLiteralValue,
+} = require('../utils')
+
 function getIsFormatMessageIdentifier(node) {
   return node.type === 'Identifier' && node.name === 'formatMessage'
 }
@@ -34,7 +39,7 @@ module.exports = {
       category: 'Intl',
       recommended: true,
     },
-    fixable: null,
+    fixable: 'code',
     schema: [],
   },
 
@@ -43,6 +48,7 @@ module.exports = {
       CallExpression: function(node) {
         if (!getIsFormatMessageCallExpressionNode(node)) return
         const [descriptorNode, valuesNode] = node.arguments || []
+        let messageId = null
 
         // validate first argument
         if (!descriptorNode) {
@@ -83,22 +89,45 @@ module.exports = {
             typeof idPropNode.value.value !== 'string'
           ) {
             context.report({
-              node: idPropNode,
+              node: idPropNode.value,
               message: '"id" property must be a literal string',
+              fix: function(fixer) {
+                if (!getIsStaticTemplateLiteral(idPropNode.value)) return
+                return fixer.replaceText(
+                  idPropNode.value,
+                  getQuotedString(
+                    getStaticTemplateLiteralValue(idPropNode.value)
+                  )
+                )
+              },
             })
           } else if (idPropNode.value.value === '') {
             context.report({
               node: idPropNode,
               message: '"id" property must not be empty',
             })
+          } else {
+            messageId = idPropNode.value.value
           }
 
           // validate "defaultMessage" property is a static string
           if (!defaultMessagePropNode || !defaultMessagePropNode.value) {
+            const fallbackMessage = getDefaultMessageFallback(
+              context,
+              messageId
+            )
+
             context.report({
               node: defaultMessagePropNode || node,
               message:
                 '"defaultMessage" property must be present, and have a value',
+              fix: function(fixer) {
+                if(!fallbackMessage) return
+                return fixer.insertTextAfter(
+                  idPropNode,
+                  `, defaultMessage: ${getQuotedString(fallbackMessage)}`
+                )
+              },
             })
           } else if (
             (defaultMessagePropNode.value.type !== 'Literal' ||
@@ -114,6 +143,9 @@ module.exports = {
             context.report({
               node: defaultMessagePropNode,
               message: '"defaultMessage" property must not be empty',
+              fix: function(fixer) {
+                return fixer.remove(defaultMessagePropNode)
+              },
             })
           }
         }

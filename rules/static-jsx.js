@@ -1,4 +1,10 @@
-const { validateValuePropertyNode } = require('../utils')
+const {
+  validateValuePropertyNode,
+  getDefaultMessageFallback,
+  getQuotedString,
+} = require('../utils')
+const eslintPluginReact = require('eslint-plugin-react')
+const curlyBracePresence = eslintPluginReact.rules['jsx-curly-brace-presence']
 
 function getIsFormattedMessageJSXIdentifierNode(node) {
   return (
@@ -25,17 +31,28 @@ module.exports = {
       category: 'Intl',
       recommended: true,
     },
-    fixable: null,
+    fixable: 'code',
     schema: [],
   },
 
   create: function(context) {
+    const curlyBracePresenceInstance = curlyBracePresence.create({
+      ...context,
+      options: [
+        {
+          props: 'never',
+          children: 'ignore',
+        },
+      ],
+    })
+
     return {
       JSXOpeningElement: function(node) {
         if (!getIsFormattedMessageJSXIdentifierNode(node.name)) return
         const idAttrNode = getJSXAttrNode(node, 'id')
         const defaultMessageAttrNode = getJSXAttrNode(node, 'defaultMessage')
         const valuesAttrNode = getJSXAttrNode(node, 'values')
+        let messageId = null
 
         // validate there are no spreads in the JSX
         node.attributes.forEach(function(attrNode) {
@@ -54,6 +71,12 @@ module.exports = {
             message: `"id" attribute must be present`,
           })
         } else if (
+          idAttrNode.value.type === 'JSXExpressionContainer' &&
+          (idAttrNode.value.expression.type === 'Literal' ||
+            idAttrNode.value.expression.type === 'TemplateLiteral')
+        ) {
+          curlyBracePresenceInstance.JSXExpressionContainer(idAttrNode.value)
+        } else if (
           idAttrNode.value.type !== 'Literal' ||
           typeof idAttrNode.value.value !== 'string'
         ) {
@@ -66,14 +89,32 @@ module.exports = {
             node: idAttrNode,
             message: '"id" attribute must not be empty',
           })
+        } else {
+          messageId = idAttrNode.value.value
         }
 
         // validate "defaultMessage" attribute is a static string
         if (!defaultMessageAttrNode || !defaultMessageAttrNode.value) {
+          const fallbackMessage = getDefaultMessageFallback(context, messageId)
           context.report({
             node: node,
             message: '"defaultMessage" attribute must be present',
+            fix: function(fixer) {
+              if (!fallbackMessage) return
+              return fixer.insertTextAfter(
+                idAttrNode,
+                ` defaultMessage=${getQuotedString(fallbackMessage, true)}`
+              )
+            },
           })
+        } else if (
+          defaultMessageAttrNode.value.type === 'JSXExpressionContainer' &&
+          (defaultMessageAttrNode.value.expression.type === 'Literal' ||
+            defaultMessageAttrNode.value.expression.type === 'TemplateLiteral')
+        ) {
+          curlyBracePresenceInstance.JSXExpressionContainer(
+            defaultMessageAttrNode.value
+          )
         } else if (
           defaultMessageAttrNode.value.type !== 'Literal' ||
           typeof defaultMessageAttrNode.value.value !== 'string'
