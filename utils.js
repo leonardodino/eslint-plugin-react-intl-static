@@ -21,6 +21,15 @@ function validateValuePropertyNode(context, propertyNode) {
   }
 }
 
+
+function getIsStaticTemplateLiteral(node) {
+  return (
+    node.type === 'TemplateLiteral' &&
+    node.expressions.length === 0 &&
+    node.quasis.length === 1
+  )
+}
 module.exports = {
   validateValuePropertyNode,
+  getIsStaticTemplateLiteral,
 }

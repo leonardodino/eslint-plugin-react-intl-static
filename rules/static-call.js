@@ -1,4 +1,6 @@
-const { validateValuePropertyNode } = require('../utils')
+const {
+  validateValuePropertyNode,
+  getIsStaticTemplateLiteral,
 function getIsFormatMessageIdentifier(node) {
   return node.type === 'Identifier' && node.name === 'formatMessage'
 }
@@ -99,12 +101,14 @@ module.exports = {
                 '"defaultMessage" property must be present, and have a value',
             })
           } else if (
-            defaultMessagePropNode.value.type !== 'Literal' ||
-            typeof defaultMessagePropNode.value.value !== 'string'
+            (defaultMessagePropNode.value.type !== 'Literal' ||
+              typeof defaultMessagePropNode.value.value !== 'string') &&
+            !getIsStaticTemplateLiteral(defaultMessagePropNode.value)
           ) {
             context.report({
-              node: defaultMessagePropNode,
-              message: '"defaultMessage" property must be a literal string',
+              node: defaultMessagePropNode.value,
+              message:
+                '"defaultMessage" property must be a string or a static template',
             })
           } else if (defaultMessagePropNode.value.value === '') {
             context.report({
