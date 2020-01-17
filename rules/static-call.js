@@ -1,11 +1,15 @@
 const { validateValuePropertyNode } = require('../utils')
+function getIsFormatMessageIdentifier(node) {
+  return node.type === 'Identifier' && node.name === 'formatMessage'
+}
 
 function getIsFormatMessageCallExpressionNode(node) {
   return (
     node &&
     node.type === 'CallExpression' &&
-    node.callee.type === 'Identifier' &&
-    node.callee.name === 'formatMessage'
+    (getIsFormatMessageIdentifier(node.callee) ||
+      (node.callee.type === 'MemberExpression' &&
+        getIsFormatMessageIdentifier(node.callee.property)))
   )
 }
 
