@@ -44,7 +44,7 @@ module.exports = {
             node: descriptorNode,
             message: 'message descriptor is required in "formatMessage"',
           })
-        } else if (!descriptorNode.type === 'ObjectExpression') {
+        } else if (descriptorNode.type !== 'ObjectExpression') {
           context.report({
             node: descriptorNode,
             message:
