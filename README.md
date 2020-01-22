@@ -9,10 +9,11 @@ rules to enforce statically analysable react-intl usage.
 ### v0.0.0
 - [x] detect basic violations in `<FormattedMessage />`
 - [x] detect basic violations in `formatMessage({})`
-- [ ] detect basic violations in `defineMessages({})`
+- [x] detect basic violations in `defineMessages({})`
 - [x] basic fixes for `<FormattedMessage />`
 - [x] basic fixes for `formatMessage({})`
-- [ ] basic fixes for `defineMessages({})`
+- [x] basic fixes for `defineMessages({})`
+- [ ] handle basic interaction with `defineMessages` output
 
 ### v0.0.1
 - [ ] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
