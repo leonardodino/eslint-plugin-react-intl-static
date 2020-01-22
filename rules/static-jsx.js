@@ -1,6 +1,7 @@
 const {
   validateValuePropertyNode,
   getDefaultMessageFallback,
+  getIsStaticTemplateLiteral,
   getQuotedString,
 } = require('../utils')
 const eslintPluginReact = require('eslint-plugin-react')
@@ -54,13 +55,18 @@ module.exports = {
         const valuesAttrNode = getJSXAttrNode(node, 'values')
         let messageId = null
 
-        // validate there are no spreads in the JSX
         node.attributes.forEach(function(attrNode) {
-          if (attrNode && attrNode.type === 'JSXSpreadAttribute') {
+          if (attrNode.type === 'JSXSpreadAttribute') {
             context.report({
               node: attrNode,
               message: 'spreads are not allowed in FormattedMessage',
             })
+          }
+          if (
+            attrNode.type === 'JSXAttribute' &&
+            attrNode.value.type === 'JSXExpressionContainer'
+          ) {
+            curlyBracePresenceInstance.JSXExpressionContainer(attrNode.value)
           }
         })
 
@@ -71,18 +77,12 @@ module.exports = {
             message: `"id" attribute must be present`,
           })
         } else if (
-          idAttrNode.value.type === 'JSXExpressionContainer' &&
-          (idAttrNode.value.expression.type === 'Literal' ||
-            idAttrNode.value.expression.type === 'TemplateLiteral')
-        ) {
-          curlyBracePresenceInstance.JSXExpressionContainer(idAttrNode.value)
-        } else if (
           idAttrNode.value.type !== 'Literal' ||
           typeof idAttrNode.value.value !== 'string'
         ) {
           context.report({
             node: idAttrNode,
-            message: '"id" attribute must be a literal string',
+            message: '"id" attribute must be a static string',
           })
         } else if (idAttrNode.value.value === '') {
           context.report({
@@ -108,20 +108,37 @@ module.exports = {
             },
           })
         } else if (
-          defaultMessageAttrNode.value.type === 'JSXExpressionContainer' &&
-          (defaultMessageAttrNode.value.expression.type === 'Literal' ||
-            defaultMessageAttrNode.value.expression.type === 'TemplateLiteral')
+          defaultMessageAttrNode.value.type === 'JSXExpressionContainer'
         ) {
-          curlyBracePresenceInstance.JSXExpressionContainer(
-            defaultMessageAttrNode.value
-          )
+          if (
+            defaultMessageAttrNode.value.expression.type === 'TemplateLiteral'
+          ) {
+            if (
+              !getIsStaticTemplateLiteral(
+                defaultMessageAttrNode.value.expression
+              )
+            ) {
+              context.report({
+                node: defaultMessageAttrNode.value.expression,
+                message: '"defaultMessage" attribute must be a static string',
+              })
+            }
+          } else if (
+            defaultMessageAttrNode.value.expression.type !== 'Literal' ||
+            typeof defaultMessageAttrNode.value.expression.value !== 'string'
+          ) {
+            context.report({
+              node: defaultMessageAttrNode.value.expression,
+              message: '"defaultMessage" attribute must be a static string',
+            })
+          }
         } else if (
           defaultMessageAttrNode.value.type !== 'Literal' ||
           typeof defaultMessageAttrNode.value.value !== 'string'
         ) {
           context.report({
-            node: defaultMessageAttrNode,
-            message: '"defaultMessage" attribute must be a literal string',
+            node: defaultMessageAttrNode.value,
+            message: '"defaultMessage" attribute must be a static string',
           })
         } else if (defaultMessageAttrNode.value.value === '') {
           context.report({
