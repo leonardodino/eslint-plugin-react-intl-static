@@ -61,6 +61,21 @@ function getStaticObjectKeys(objectExpressionNode) {
 
 function getIsDefinedMessage(context, descriptorNode) {
   if (!descriptorNode) return false
+  if (
+    descriptorNode.type === 'LogicalExpression' &&
+    ['||', '??'].includes(descriptorNode.operator)
+  ) {
+    const problems = []
+    const report = context.report
+    context.report = problem => problems.push(problem)
+    const valid = [descriptorNode.left, descriptorNode.right].every(node =>
+      getIsDefinedMessage(context, node)
+    )
+    context.report = report
+    if (valid) problems.forEach(problem => context.report(problem))
+    return valid
+  }
+
   if (descriptorNode.type !== 'MemberExpression') return false
   if (descriptorNode.object.type !== 'Identifier') return false
 
