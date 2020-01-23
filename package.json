@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-react-intl-static",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.4",
   "description": "ESLint plugin for validating static react-intl usage",
   "main": "index.js",
   "repository": "https://github.com/leonardodino/eslint-plugin-react-intl-static",
