@@ -32,6 +32,77 @@ function getObjectPropertyNode(node, attrName) {
   })
 }
 
+function findVariableInScope(scope, variableName) {
+  const found = scope.variables.find(variable => variable.name === variableName)
+  return (
+    found || (scope.upper && findVariableInScope(scope.upper, variableName))
+  )
+}
+function getVariableDefinitions(context, variableName) {
+  const scope = context.getScope()
+  const variable = findVariableInScope(scope, variableName)
+  return (variable && variable.defs) || []
+}
+function getStaticObjectKeys(objectExpressionNode) {
+  return objectExpressionNode.properties
+    .filter(propertyNode => {
+      if (propertyNode.type !== 'Property') return false
+      if (propertyNode.kind !== 'init') return false
+      if (propertyNode.computed) return false
+      return (
+        propertyNode.key.type === 'Literal' ||
+        propertyNode.key.type === 'Identifier'
+      )
+    })
+    .map(propertyNode => {
+      return propertyNode.key.name || propertyNode.key.value
+    })
+}
+
+function getIsDefinedMessage(context, descriptorNode) {
+  if (!descriptorNode) return false
+  if (descriptorNode.type !== 'MemberExpression') return false
+  if (descriptorNode.object.type !== 'Identifier') return false
+
+  const name = descriptorNode.object.name
+  const [definition, ...redefs] = getVariableDefinitions(context, name)
+  if (redefs.length !== 0) return false
+  if (!definition || definition.type !== 'Variable') return false
+  if (definition.node.init.type !== 'CallExpression') return false
+  if (definition.node.init.callee.type !== 'Identifier') return false
+  if (definition.node.init.callee.name !== 'defineMessages') return false
+
+  if (definition.parent.kind !== 'const') {
+    context.report({
+      node: definition.parent,
+      message: "message definitions should use 'const'",
+    })
+  }
+
+  if (
+    !descriptorNode.computed &&
+    descriptorNode.property.type === 'Identifier'
+    ) {
+    // try to validate non-computed property access of messages
+    try {
+      const keyName = descriptorNode.property.name
+      const definedMessagesNode = definition.node.init.arguments[0]
+      const validMessageKeys = getStaticObjectKeys(definedMessagesNode)
+      if (!validMessageKeys.includes(keyName)) {
+        context.report({
+          node: descriptorNode.property,
+          message: `property "${keyName}" not found on defined messages object "${name}"`,
+        })
+      }
+    } catch (e) {
+      // ignore errors here, the defineMessages call can be in an invalid format
+      // violations in that definition are picked up by the static-define rule
+    }
+  }
+
+  return true
+}
+
 module.exports = {
   meta: {
     docs: {
@@ -51,7 +122,9 @@ module.exports = {
         let messageId = null
 
         // validate first argument
-        if (!descriptorNode) {
+        if (getIsDefinedMessage(context, descriptorNode)) {
+          // skip checking, it was validated via `defineMessages`
+        } else if (!descriptorNode) {
           context.report({
             node: descriptorNode,
             message: 'message descriptor is required in "formatMessage"',
@@ -122,7 +195,7 @@ module.exports = {
               message:
                 '"defaultMessage" property must be present, and have a value',
               fix: function(fixer) {
-                if(!fallbackMessage) return
+                if (!fallbackMessage) return
                 return fixer.insertTextAfter(
                   idPropNode,
                   `, defaultMessage: ${getQuotedString(fallbackMessage)}`
