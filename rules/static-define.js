@@ -31,6 +31,8 @@ function getObjectPropertyNode(node, attrName) {
   })
 }
 
+const defaultOptions = { allowComputed: true }
+
 module.exports = {
   meta: {
     docs: {
@@ -39,10 +41,21 @@ module.exports = {
       recommended: true,
     },
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowComputed: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
 
   create: function(context) {
+    const options = { ...defaultOptions, ...context.options }
     return {
       CallExpression: function(node) {
         if (!getIsDefineMessagesCallExpressionNode(node)) return
@@ -70,6 +83,12 @@ module.exports = {
               message: 'spreads are not allowed in defineMessages',
             })
             return
+          } else if (
+            descriptorNode.type === 'Property' &&
+            descriptorNode.computed &&
+            options.allowComputed
+          ) {
+            // skip checks here
           } else if (
             descriptorNode.type === 'Property' &&
             descriptorNode.computed

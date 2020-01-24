@@ -14,7 +14,8 @@ rules to enforce statically analysable react-intl usage.
 - [x] basic fixes for `formatMessage({})`
 - [x] basic fixes for `defineMessages({})`
 - [x] handle basic interaction of `defineMessages` + `formatMessage`
-- [ ] handle fallback interaction of `defineMessages` + `formatMessage`
+- [x] handle fallback interaction of `defineMessages` + `formatMessage`
+- [x] add option for allowing computed keys in `defineMessages`
 
 ### v0.0.1
 - [ ] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
