@@ -55,7 +55,7 @@ module.exports = {
   },
 
   create: function(context) {
-    const options = { ...defaultOptions, ...context.options }
+    const options = { ...defaultOptions, ...context.options[0] }
     return {
       CallExpression: function(node) {
         if (!getIsDefineMessagesCallExpressionNode(node)) return
