@@ -141,7 +141,7 @@ module.exports = {
           // skip checking, it was validated via `defineMessages`
         } else if (!descriptorNode) {
           context.report({
-            node: descriptorNode,
+            node: node,
             message: 'message descriptor is required in "formatMessage"',
           })
         } else if (descriptorNode.type !== 'ObjectExpression') {
