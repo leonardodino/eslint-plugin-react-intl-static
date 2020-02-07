@@ -18,7 +18,7 @@ rules to enforce statically analysable react-intl usage.
 - [x] add option for allowing computed keys in `defineMessages`
 
 ### v0.0.1
-- [ ] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
+- [x] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
 - [ ] add [tests](https://eslint.org/docs/developer-guide/nodejs-api#ruletester)
 - [ ] add docs
 
