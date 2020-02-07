@@ -64,7 +64,7 @@ module.exports = {
           }
           if (
             attrNode.type === 'JSXAttribute' &&
-            attrNode.value && 
+            attrNode.value &&
             attrNode.value.type === 'JSXExpressionContainer'
           ) {
             curlyBracePresenceInstance.JSXExpressionContainer(attrNode.value)

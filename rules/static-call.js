@@ -97,7 +97,7 @@ function getIsDefinedMessage(context, descriptorNode) {
   if (
     !descriptorNode.computed &&
     descriptorNode.property.type === 'Identifier'
-    ) {
+  ) {
     // try to validate non-computed property access of messages
     try {
       const keyName = descriptorNode.property.name
