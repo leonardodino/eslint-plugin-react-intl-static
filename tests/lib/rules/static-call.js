@@ -84,6 +84,11 @@ test(locale)(rule, {
       errors: ['"defaultMessage" property must not be empty'],
     },
     {
+      code: 'formatMessage({id: "greeting", defaultMessage: "",})',
+      output: 'formatMessage({id: "greeting", })',
+      errors: ['"defaultMessage" property must not be empty'],
+    },
+    {
       code: 'formatMessage({id: "greeting", })',
       output: 'formatMessage({id: "greeting", defaultMessage: "hello", })',
       errors: ['"defaultMessage" property must be present, and have a value'],
