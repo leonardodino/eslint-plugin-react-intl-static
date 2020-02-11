@@ -6,7 +6,6 @@
 rules to enforce statically analysable react-intl usage.
 
 # Roadmap
-> warning: work-in-progress
 
 ### v0.0.0
 - [x] detect basic violations in `<FormattedMessage />`
@@ -21,13 +20,17 @@ rules to enforce statically analysable react-intl usage.
 
 ### v0.0.1
 - [x] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
-- [ ] WIP: add [tests](https://eslint.org/docs/developer-guide/nodejs-api#ruletester)
+- [x] add [tests](https://eslint.org/docs/developer-guide/nodejs-api#ruletester)
 - [ ] add docs
 
 ### v0.1.0
+- [ ] disallow renaming/aliasing of functions/imports
+- [ ] disallow passing `formatMessage` as a positional argument
+
+### v0.2.0
 - [ ] move to typescript
 - [ ] remove this roadmap
 
-### v0.2.0
+### v0.3.0
 - [ ] separate useful functions into it's own package
 - [ ] monorepo, maybe :thinking:
