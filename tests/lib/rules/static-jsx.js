@@ -1,4 +1,4 @@
-const test = require('../../../lib/utils/test')
+const test = require('../../../lib/test-utils')
 const rule = require('../../../lib/rules/static-jsx')
 
 const locale = { greeting: 'hello', hello: 'hello {name}' }
