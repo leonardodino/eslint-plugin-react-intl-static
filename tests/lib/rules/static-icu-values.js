@@ -43,7 +43,8 @@ test(locale)(rule, {
       errors: [/"nome"/],
     },
     {
-      code: 'formatMessage({id: "plural", defaultMessage: "{count, plural, =0 {some {variable}} other {# objects}}"})',
+      code:
+        'formatMessage({id: "plural", defaultMessage: "{count, plural, =0 {some {variable}} other {# objects}}"})',
       errors: [/"count", "variable"/],
     },
     {
