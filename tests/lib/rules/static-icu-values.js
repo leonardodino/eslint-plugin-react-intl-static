@@ -16,6 +16,17 @@ test(locale)(rule, {
     'defineMessages({key: {id: "greeting", defaultMessage: "hello"}})',
     'defineMessages({key: {id: "greeting", defaultMessage: "hello {name}"}})',
     'defineMessages({key: {id: "greeting", defaultMessage: `hello {name}`}})',
+    `
+      <FormattedMessage
+        id='greeting'
+        defaultMessage='Hello <profile-link><b>{name}</b>!</profile-link>'
+        values={{
+          name,
+          b: chunks => <b>{...chunks}</b>,
+          'profile-link': chunks => <a href='/profile'>{...chunks}</a>,
+        }}
+      />
+    `,
   ],
   invalid: [
     {
@@ -51,6 +62,16 @@ test(locale)(rule, {
       code:
         'defineMessages({key: {id: "greeting", defaultMessage: "hello {"}})',
       errors: ['defaultMessage should be a valid ICU MessageFormat string'],
+    },
+    {
+      code: `
+        <FormattedMessage
+          id='greeting'
+          defaultMessage='Hello <profile-link><b>{name}</b>!</profile-link>'
+          values={{}}
+        />
+      `,
+      errors: [/"profile-link"/, /"b"/, /"name"/],
     },
   ],
 })
