@@ -24,6 +24,6 @@
   "dependencies": {
     "eslint-plugin-react": "^7.18.0",
     "estree-walk": "^2.2.0",
-    "intl-messageformat-parser": "^3.6.4"
+    "intl-messageformat-parser": "^4.1.0"
   }
 }
