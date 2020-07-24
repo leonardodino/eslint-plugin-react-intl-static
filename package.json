@@ -19,11 +19,14 @@
     "jest": "^25.1.0",
     "memfs": "^3.0.4",
     "prettier": "1.19.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "intl-messageformat-parser": "^5.3.7"
+  },
+  "peerDependencies": {
+    "intl-messageformat-parser": ">4.1.0"
   },
   "dependencies": {
     "eslint-plugin-react": "^7.18.0",
-    "estree-walk": "^2.2.0",
-    "intl-messageformat-parser": "^4.1.0"
+    "estree-walk": "^2.2.0"
   }
 }
