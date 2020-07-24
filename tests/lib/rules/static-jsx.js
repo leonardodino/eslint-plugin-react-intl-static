@@ -58,6 +58,8 @@ test(locale)(rule, {
     },
     {
       code: '(<FormattedMessage id="hello" values={{}} {...props} />)',
+      output:
+        '(<FormattedMessage id="hello" defaultMessage="hello {name}" values={{}} {...props} />)',
       errors: [
         '"defaultMessage" attribute must be present',
         'empty objects are not accepted as values, remove it',

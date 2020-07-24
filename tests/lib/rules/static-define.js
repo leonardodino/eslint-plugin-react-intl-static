@@ -46,6 +46,8 @@ test(locale)(rule, {
     },
     {
       code: 'defineMessages({ key: { id:"greeting", ...something } })',
+      output:
+        'defineMessages({ key: { id:"greeting", defaultMessage: "hello", ...something } })',
       errors: [
         '"defaultMessage" property must be present, and have a value',
         'spreads are not allowed in defineMessages',
@@ -68,6 +70,13 @@ test(locale)(rule, {
         key3: { id: \`key.id.3\`, defaultMessage: 'message 3' },
         key4: { id: \`key.id.\${n}\`, defaultMessage: \`message \${n}\` },
         key5: { id: 'key.id.5', defaultMessage: '' },
+      })`,
+      output: `const defined = defineMessages({
+        key1: { defaultMessage: 'message 1' },
+        key2: { id: '', defaultMessage: 'message 2' },
+        key3: { id: "key.id.3", defaultMessage: 'message 3' },
+        key4: { id: \`key.id.\${n}\`, defaultMessage: \`message \${n}\` },
+        key5: { id: 'key.id.5',  },
       })`,
       errors: [
         '"id" property must be present, and have a value',
