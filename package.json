@@ -14,19 +14,21 @@
     "testRegex": "/tests/.+/*.(js|ts)$"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^2.19.0",
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0",
-    "memfs": "^3.0.4",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "intl-messageformat-parser": "^5.3.7",
+    "jest": "^26.1.0",
+    "memfs": "^3.2.0",
     "prettier": "1.19.1",
-    "typescript": "^3.7.5",
-    "intl-messageformat-parser": "^5.3.7"
+    "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "intl-messageformat-parser": ">4.1.0"
+    "@typescript-eslint/parser": "^2||^3",
+    "eslint": "^6||^7",
+    "intl-messageformat-parser": "^4.1.0||^5"
   },
   "dependencies": {
-    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react": "^7.20.3",
     "estree-walk": "^2.2.0"
   }
 }
