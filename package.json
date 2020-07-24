@@ -7,7 +7,8 @@
   "author": "Leonardo Dino",
   "license": "MIT",
   "scripts": {
-    "lint": "prettier --check '**/*.{js,json,ts,tsx}' --ignore-path .gitignore",
+    "lint": "prettier --check '**/*.{js,json,ts,tsx,yml}' --ignore-path .gitignore",
+    "format": "prettier --write '**/*.{js,json,ts,tsx,yml}' --ignore-path .gitignore",
     "test": "jest"
   },
   "jest": {
@@ -19,7 +20,7 @@
     "intl-messageformat-parser": "^5.3.7",
     "jest": "^26.1.0",
     "memfs": "^3.2.0",
-    "prettier": "1.19.1",
+    "prettier": "2.0.5",
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
