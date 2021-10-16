@@ -34,33 +34,27 @@ test(locale)(rule, {
       errors: [/"name"/],
     },
     {
-      code:
-        '(<FormattedMessage id="hello" defaultMessage="hello {name}" values={{}} />)',
+      code: '(<FormattedMessage id="hello" defaultMessage="hello {name}" values={{}} />)',
       errors: [/"name"/],
     },
     {
-      code:
-        '(<FormattedMessage id="hello" defaultMessage={`hello {nome}`} values={{name}} />)',
+      code: '(<FormattedMessage id="hello" defaultMessage={`hello {nome}`} values={{name}} />)',
       errors: [/"nome"/],
     },
     {
-      code:
-        'formatMessage({id: "greeting", defaultMessage: "hello {name}"}, {})',
+      code: 'formatMessage({id: "greeting", defaultMessage: "hello {name}"}, {})',
       errors: [/"name"/],
     },
     {
-      code:
-        'formatMessage({id: "greeting", defaultMessage: `hello {nome}`}, {name})',
+      code: 'formatMessage({id: "greeting", defaultMessage: `hello {nome}`}, {name})',
       errors: [/"nome"/],
     },
     {
-      code:
-        'formatMessage({id: "plural", defaultMessage: "{count, plural, =0 {some {variable}} other {# objects}}"})',
+      code: 'formatMessage({id: "plural", defaultMessage: "{count, plural, =0 {some {variable}} other {# objects}}"})',
       errors: [/"count", "variable"/],
     },
     {
-      code:
-        'defineMessages({key: {id: "greeting", defaultMessage: "hello {"}})',
+      code: 'defineMessages({key: {id: "greeting", defaultMessage: "hello {"}})',
       errors: ['defaultMessage should be a valid ICU MessageFormat string'],
     },
     {

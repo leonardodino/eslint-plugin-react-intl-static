@@ -1,8 +1,8 @@
 language: node_js
-node_js: 12
+node_js: 14
 notifications: { email: false }
 cache: yarn
 script:
   - yarn lint
   - yarn test --coverage
-  - npx codecov@2
+  - npx codecov@3
