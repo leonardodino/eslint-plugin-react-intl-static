@@ -71,8 +71,7 @@ test(locale)(rule, {
       errors: ['spreads are not allowed in "values"'],
     },
     {
-      code:
-        '(<FormattedMessage id="h" defaultMessage="h" values={{[a]: 1}} />)',
+      code: '(<FormattedMessage id="h" defaultMessage="h" values={{[a]: 1}} />)',
       errors: ['computed properties are not allowed in "values"'],
     },
     {
