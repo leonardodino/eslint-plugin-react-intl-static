@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-react-intl-static",
-  "version": "0.0.1-alpha.1",
-  "description": "ESLint plugin for validating static react-intl usage",
+  "version": "0.0.2-alpha.0",
+  "description": "ESLint plugin to enforce statically analysable react-intl usage",
   "main": "lib/index.js",
   "repository": "https://github.com/leonardodino/eslint-plugin-react-intl-static",
   "author": "Leonardo Dino",
@@ -18,6 +18,7 @@
   "engines": {
     "node": ">=14.17.0"
   },
+  "files": ["./lib"],
   "devDependencies": {
     "@formatjs/icu-messageformat-parser": "^2.6.2",
     "@typescript-eslint/parser": "^6.7.5",
