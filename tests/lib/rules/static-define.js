@@ -7,7 +7,9 @@ test(locale)(rule, {
   valid: [
     'anyOtherFunction()',
     'defineMessages({ key: {id: "greeting", defaultMessage: "hello"} })',
+    'defineMessages({ "example-key": {id: "greeting", defaultMessage: "hello"} })',
     'defineMessages({ [key]: {id:"greeting", defaultMessage: "hello"} })',
+    'i18n.defineMessages({ key: {id:"greeting", defaultMessage: "hello"} })',
     `const defined = defineMessages({
       key1: { id: 'key.id.1', defaultMessage: 'message 1' },
       key2: { id: 'key.id.2', defaultMessage: 'message 2' },
@@ -16,6 +18,10 @@ test(locale)(rule, {
   invalid: [
     {
       code: 'defineMessages()',
+      errors: ['messages is required in "defineMessages"'],
+    },
+    {
+      code: 'i18n.defineMessages()',
       errors: ['messages is required in "defineMessages"'],
     },
     {

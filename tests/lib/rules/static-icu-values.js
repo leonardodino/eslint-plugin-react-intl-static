@@ -11,6 +11,7 @@ test(locale)(rule, {
     'formatMessage({id: "greeting", defaultMessage: "hello"})',
     'formatMessage({id: "greeting", defaultMessage: "hello {name}"}, {name})',
     'formatMessage({id: "greeting", defaultMessage: `hello {name}`}, {name})',
+    '(<FormattedMessage id="hello" defaultMessage="hello {name}" values={{ name: "name" }} />)',
     '(<FormattedMessage id="hello" defaultMessage="hello {name}" values={{ "name": name }} />)',
     '(<FormattedMessage id="hello" defaultMessage={`hello {name}`} values={{name}} />)',
     'defineMessages({key: {id: "greeting", defaultMessage: "hello"}})',

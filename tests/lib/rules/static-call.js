@@ -33,6 +33,12 @@ test(locale)(rule, {
       ],
     },
     {
+      code: `${definition}; formatMessage(defined.prop, {'name': 'ok'})`,
+      errors: [
+        'property "prop" not found on defined messages object "defined"',
+      ],
+    },
+    {
       code: `${definition}; formatMessage(defined)`,
       errors: ['message descriptor must be a static object in "formatMessage"'],
     },
@@ -115,6 +121,10 @@ test(locale)(rule, {
         '"defaultMessage" property must be a string or a static template',
         'computed properties are not allowed in "values"',
       ],
+    },
+    {
+      code: 'formatMessage({id: "a", defaultMessage: "{name}"}, {get name() {return "no"}})',
+      errors: ['dynamic objects are not allowed in "values"'],
     },
   ],
 })
