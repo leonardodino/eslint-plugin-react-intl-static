@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "jest": {
+    "coverageProvider": "v8",
     "testRegex": "/tests/.+/*.(js|ts)$"
   },
   "devDependencies": {
