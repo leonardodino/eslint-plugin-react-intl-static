@@ -1,0 +1,28 @@
+name: 'Continuous Integration'
+
+on: [pull_request, push]
+
+jobs:
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Setup node'
+        uses: actions/setup-node@v3
+        with: { node-version: 18, cache: yarn }
+
+      - name: 'Install dependencies'
+        run: 'yarn --frozen-lockfile'
+
+      - name: 'Run linter'
+        run: 'yarn lint'
+
+      - name: 'Run tests'
+        run: 'yarn test --coverage'
+
+      - name: 'Upload coverage'
+        run: 'npx codecov@3'
+        if: ${{ github.repository == 'leonardodino/eslint-plugin-react-intl-static' }}

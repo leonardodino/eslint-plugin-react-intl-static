@@ -1,6 +1,6 @@
 # eslint-plugin-react-intl-static
 [![npm](https://img.shields.io/npm/v/eslint-plugin-react-intl-static)](https://www.npmjs.com/package/eslint-plugin-react-intl-static)
-[![Build Status](https://travis-ci.com/leonardodino/eslint-plugin-react-intl-static.svg?branch=master)](https://app.travis-ci.com/github/leonardodino/eslint-plugin-react-intl-static)
+[![Build Status](https://github.com/leonardodino/eslint-plugin-react-intl-static/actions/workflows/ci.yml/badge.svg)](https://github.com/leonardodino/eslint-plugin-react-intl-static/actions/workflows/ci.yml)
 [![Code Coverage](https://badgen.net/codecov/c/github/leonardodino/eslint-plugin-react-intl-static)](https://app.codecov.io/gh/leonardodino/eslint-plugin-react-intl-static)
 
 rules to enforce statically analysable react-intl usage.
