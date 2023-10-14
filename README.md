@@ -21,6 +21,9 @@ rules to enforce statically analysable react-intl usage.
 ### v0.0.1
 - [x] follow [default eslint repo format](https://github.com/eslint/generator-eslint)
 - [x] add [tests](https://eslint.org/docs/developer-guide/nodejs-api#ruletester)
+
+### v0.0.2
+- [x] improve `eslint` version compatibility
 - [ ] add docs
 
 ### v0.1.0
