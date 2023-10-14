@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "prettier --check '**/*.{js,json,ts,tsx,yml}' --ignore-path .gitignore",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml}' --ignore-path .gitignore",
+    "prepack": "yarn -s lint",
     "test": "jest"
   },
   "jest": {
@@ -18,7 +19,9 @@
   "engines": {
     "node": ">=14.17.0"
   },
-  "files": ["./lib"],
+  "files": [
+    "./lib"
+  ],
   "devDependencies": {
     "@formatjs/icu-messageformat-parser": "^2.6.2",
     "@typescript-eslint/parser": "^6.7.5",
