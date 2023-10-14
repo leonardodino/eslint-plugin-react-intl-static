@@ -15,6 +15,9 @@
     "coverageProvider": "v8",
     "testRegex": "/tests/.+/*.(js|ts)$"
   },
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "devDependencies": {
     "@formatjs/icu-messageformat-parser": "^2.6.2",
     "@typescript-eslint/parser": "^6.7.5",
@@ -25,9 +28,9 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@formatjs/icu-messageformat-parser": ">=2",
-    "@typescript-eslint/parser": ">=2",
-    "eslint": ">=6"
+    "@formatjs/icu-messageformat-parser": ">=2.0.6",
+    "@typescript-eslint/parser": ">=2.34.0",
+    "eslint": ">=6.8.0"
   },
   "dependencies": {
     "eslint-plugin-react": "^7.33.2",
